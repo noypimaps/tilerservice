@@ -11,7 +11,7 @@ A django based application which generates a map tiles using `gdal2tiles.py`.
 
 ## Setup
 1. Install system requirements:
-  - sudo apt-get install python-pip python-dev libpq-dev libgdal-dev libgdal1i redis-server python-virtualenv
+  - sudo apt-get install python-pip python-dev libpq-dev libgdal-dev libgdal1i python-gdal aredis-server python-virtualenv
 2. Configure virtual environment:
  - Create virtual environemnt: `virtualenv env`
  - Activate virtual environment: `. env/bin/activate`
