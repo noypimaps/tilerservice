@@ -1,3 +1,5 @@
 env/
 tiles/
 *.pyc
+sample_run/
+*.sqlite3
