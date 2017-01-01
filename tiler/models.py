@@ -10,3 +10,11 @@ class TileStore(models.Model):
 
     def __unicode__(self):
         return self.layername
+
+
+class RasterStore(models.Model):
+    layername = models.CharField(max_length=255)
+    raw_location = models.TextField()
+
+    def __unicode__(self):
+        return self.layername

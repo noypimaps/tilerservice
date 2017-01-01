@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.http import JsonResponse
 from .proc import ProcessAPI
-# Create your views here.
 
 
 class TileView(View):
@@ -11,6 +10,21 @@ class TileView(View):
         proc = ProcessAPI()
         input_raster = "sample_data/bathymetry.tif"
         color_text = "sample_data/color-text.txt"
-        proc.color_raster("test", input_raster, color_text)
+        rastname = "test"
+        proc.color_raster(rastname, input_raster, color_text)
         message['detail'] = proc.name
+        return JsonResponse(message)
+
+
+class TileWeb(View):
+    def get(self, request):
+        message = {}
+        message['detail'] = "Tile Web Interface"
+        return render(request, "index.html")
+
+
+class FileUploader(View):
+    def get(self, request):
+        message = {}
+        message['detail'] = "File Uploader"
         return JsonResponse(message)

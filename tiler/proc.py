@@ -11,6 +11,21 @@ class ProcessAPI():
     def __init__(self):
         self.name = "Process API"
 
+    def color_raster(self, rastname, input_raster, colorfile_loc=color_text):
+        if os.path.isdir("%s/" % color_output):
+            pass
+        else:
+            os.makedirs("%s/" % color_output)
+
+        try:
+            cmd = 'gdaldem color-relief -alpha %s %s %s/%s.tif' % (
+                input_raster, colorfile_loc, color_output, rastname)
+
+            os.system(cmd)
+            return ("Finished coloring %s" % rastname, "sucess")
+        except:
+            return ("Failed coloring %s" % rastname, "failed")
+
     def warp_raster(self, rastname, input_raster):
         if os.path.isdir("%s/" % warp_output):
             pass
@@ -33,18 +48,3 @@ class ProcessAPI():
             return ("Finished tiling %s" % rastname, "sucess")
         except:
             return ("Failed tiling %s" % rastname, "failed")
-
-    def color_raster(self, rastname, input_raster, colorfile_loc=color_text):
-        if os.path.isdir("%s/" % color_output):
-            pass
-        else:
-            os.makedirs("%s/" % color_output)
-
-        try:
-            cmd = 'gdaldem color-relief -alpha %s %s %s/%s.tif' % (
-                input_raster, colorfile_loc, color_output, rastname)
-
-            os.system(cmd)
-            return ("Finished coloring %s" % rastname, "sucess")
-        except:
-            return ("Failed coloring %s" % rastname, "failed")

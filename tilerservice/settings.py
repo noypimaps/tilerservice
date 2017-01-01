@@ -55,7 +55,7 @@ ROOT_URLCONF = 'tilerservice.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,6 +122,7 @@ STATIC_URL = '/static/'
 
 
 # Tiler Service Specific Configuration
-TILE_OUTPUT = "/tmp/tile_output"
+TILE_OUTPUT = "sample_run/tile_output"
 WARP_OUTPUT = "/tmp/warp_output"
 COLOR_OUTPUT = "/tmp/color_output"
+TILE_UPLOAD = "/tmp/tile_upload"
