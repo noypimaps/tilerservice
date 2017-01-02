@@ -2,7 +2,7 @@
 <html>
 
 <head>
-{% load staticfiles %}
+    {% load staticfiles %}
     <meta charset="utf-8" />
     <title>Tile Web Interface</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
@@ -24,43 +24,54 @@
 <body>
     <div class="ui massive menu">
         <a class="active item">
-	    RASTER TILING SERVICE
-	  </a>
-        <a class="item">
-	    ABOUT
-	  </a>
+        RASTER TILING SERVICE
+      </a>
+        <a class="item" onClick="showAboutModal();">
+        ABOUT
+      </a>
         <a class="item" onClick="showUploadForm();">
-	    UPLOAD
-	  </a>
+        UPLOAD
+      </a>
         <div class="right menu">
         </div>
     </div>
     <div id="mapid" class="fill"></div>
-    <div class="ui modal">
+    <div class="ui modal" id="upload_modal">
         <div class="header">Raster Upload Form</div>
         <div class="content">
-					<form class="ui form" method="post" action="/upload/" enctype="multipart/form-data">
-					  {% csrf_token %}
-					  <div class="field">
-					    <label>Raster Name</label>
-					    <input type="text" name="rastername" required>
-					  </div>
-					  <div class="field">
-					    <label>File</label>
-					    <input type="file" name="file" required>
-					  </div>
-					  <div class="field">
-					    <label>Color Text</label>
-					    <input type="file" name="colorfile" required>
-					  </div>
-					  <button class="ui button teal" type="submit">Upload</button>
-					</form>
+            <form class="ui form" method="post" action="/upload/" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="field">
+                    <label>Raster Name</label>
+                    <input type="text" name="rastername" required>
+                </div>
+                <div class="field">
+                    <label>File</label>
+                    <input type="file" name="file" required>
+                </div>
+                <div class="field">
+                    <label>Color Text</label>
+                    <input type="file" name="colorfile" required>
+                </div>
+                <button class="ui button teal" type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+    <div class="ui modal" id="about_modal">
+        <div class="header">Raster Tiling Service</div>
+        <div class="content">
+            <p>The Raster Tiling Service is Django Web Application which generates tiles from uploaded rasters. It generates a tile map service which can be used to host your raster data online. The code can be found <a href="https://github.com/noypimaps/tilerservice">here</a></p>
+            <br />
+            <p>This is developed by <i>noypimaps.</i></p>
         </div>
     </div>
 </body>
 <script>
 function showUploadForm() {
-    $('.ui.modal').modal('show');
+    $('#upload_modal').modal('show');
+}
+function showAboutModal() {
+    $('#about_modal').modal('show');
 }
 var overlayMaps = {};
 var overlayLayers = [];
@@ -72,8 +83,8 @@ var OpenStreetMap_HOT = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x
 });
 overlayLayers.push(OpenStreetMap_HOT);
 
-$.getJSON('/tile/list/', function(data){
-    for(var i=0; i<data.length; i++){
+$.getJSON('/tile/list/', function(data) {
+    for (var i = 0; i < data.length; i++) {
         overlayMaps[data[i].fields.layername] = L.tileLayer(data[i].fields.link + '/{z}/{x}/{y}.png', {
             maxZoom: 19,
             tms: true,
@@ -81,9 +92,9 @@ $.getJSON('/tile/list/', function(data){
         overlayLayers.push(overlayMaps[data[i].fields.layername]);
 
     }
-}).done(function(){
-    var mymap = L.map('mapid',{
-        center: [14,122],
+}).done(function() {
+    var mymap = L.map('mapid', {
+        center: [14, 122],
         zoom: 6,
         layers: overlayLayers
 
@@ -93,9 +104,6 @@ $.getJSON('/tile/list/', function(data){
 
 
 });
-
-
-
 </script>
 
 </html>
