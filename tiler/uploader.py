@@ -1,6 +1,6 @@
 from django.conf import settings
 from models import RasterStore
-from osgeo import gdal
+# from osgeo import gdal
 import os
 
 rast_store = settings.TILE_UPLOAD
@@ -14,12 +14,12 @@ class UploaderAPI():
         RasterStore.objects.create(
             layername=rastname, raw_location=loc, color_location=colorloc)
 
-    def check_raster(self, loc):
-        try:
-            gdal.Open(loc)
-            return True
-        except:
-            return False
+    # def check_raster(self, loc):
+    #     try:
+    #         gdal.Open(loc)
+    #         return True
+    #     except:
+    #         return False
 
     def upload_file(self, f, colorfile, rastname):
         raw_loc = rast_store + '/%s/%s.tif' % (rastname, rastname)
