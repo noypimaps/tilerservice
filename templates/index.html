@@ -42,11 +42,15 @@
 					  {% csrf_token %}
 					  <div class="field">
 					    <label>Raster Name</label>
-					    <input type="text" name="rastername">
+					    <input type="text" name="rastername" required>
 					  </div>
 					  <div class="field">
 					    <label>File</label>
-					    <input type="file" name="file">
+					    <input type="file" name="file" required>
+					  </div>
+					  <div class="field">
+					    <label>Color Text</label>
+					    <input type="file" name="colorfile" required>
 					  </div>
 					  <button class="ui button teal" type="submit">Upload</button>
 					</form>

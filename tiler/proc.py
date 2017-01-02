@@ -22,7 +22,8 @@ class ProcessAPI():
                 input_raster, colorfile_loc, color_output, rastname)
 
             os.system(cmd)
-            return ("Finished coloring %s" % rastname, "sucess")
+            color_loc = '%s/%s.tif' % (color_output, rastname)
+            return ("Finished coloring %s" % rastname, "sucess", color_loc)
         except:
             return ("Failed coloring %s" % rastname, "failed")
 
@@ -36,7 +37,8 @@ class ProcessAPI():
             cmd = 'gdalwarp -co TILED=YES -co COMPRESS=DEFLATE -t_srs EPSG:3857 %s %s/%s.tif' % (
                 input_raster, warp_output, rastname)
             os.system(cmd)
-            return ("Finished warping %s" % rastname, "sucess")
+            warp_loc = '%s/%s.tif' % (warp_output, rastname)
+            return ("Finished warping %s" % rastname, "sucess", warp_loc)
         except:
             return ("Failed tiling %s" % rastname, "failed")
 

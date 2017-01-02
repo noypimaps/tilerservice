@@ -123,6 +123,7 @@ STATIC_URL = '/static/'
 
 # Tiler Service Specific Configuration
 TILE_OUTPUT = "sample_run/tile_output"
-WARP_OUTPUT = "/tmp/warp_output"
-COLOR_OUTPUT = "/tmp/color_output"
-TILE_UPLOAD = "/tmp/tile_upload"
+WARP_OUTPUT = "sample_run/warp_output"
+COLOR_OUTPUT = "sample_run/color_output"
+TILE_UPLOAD = "sample_run/tile_upload"
+TILE_ZOOM = "6-7"
