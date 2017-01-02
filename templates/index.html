@@ -62,16 +62,46 @@
 function showUploadForm() {
     $('.ui.modal').modal('show');
 }
-var mymap = L.map('mapid').setView([14, 122], 6);
+// L.tileLayer('/tiles/bathymetry/{z}/{x}/{y}.png', {
+//     maxZoom: 19,
+//     tms: true,
+// }).addTo(mymap);
+// console.log('/tiles/bathymetry/{z}/{x}/{y}.png');
+
+var overlayMaps = {};
+var overlayLayers = [];
+var baseMaps = {}
+
 var OpenStreetMap_HOT = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
-}).addTo(mymap);
-L.tileLayer('/tiles/bathymetry/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    tms: true,
-}).addTo(mymap);
-console.log('/tiles/bathymetry/{z}/{x}/{y}.png');
+});
+overlayLayers.push(OpenStreetMap_HOT);
+
+$.getJSON('/tile/list/', function(data){
+    for(var i=0; i<data.length; i++){
+        overlayMaps[data[i].fields.layername] = L.tileLayer(data[i].fields.link + '/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            tms: true,
+        });
+        overlayLayers.push(overlayMaps[data[i].fields.layername]);
+
+    }
+}).done(function(){
+    var mymap = L.map('mapid',{
+        center: [14,122],
+        zoom: 6,
+        layers: overlayLayers
+
+    });
+
+    L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+
+
+});
+
+
+
 </script>
 
 </html>

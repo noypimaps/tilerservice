@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
 from django.conf import settings
 from django.http import JsonResponse
+from django.core import serializers
 from .proc import ProcessAPI
 from .uploader import UploaderAPI
-from .models import RasterStore
+from .models import RasterStore, TileStore
+import json
 
 
 class TileView(View):
-    def get(self, request, rastname):
+    def post(self, request, rastname):
         message = {}
         raster = get_object_or_404(RasterStore, layername=rastname)
         proc = ProcessAPI()
@@ -46,3 +48,19 @@ class FileUploader(View):
             return redirect('/')
         else:
             return redirect('/')
+
+
+class RastersListAPI(View):
+    def get(self, request):
+        rasterlist = RasterStore.objects.all()
+        data = json.loads(serializers.serialize(
+            'json', rasterlist, fields=('layername')))
+        return JsonResponse(data, safe=False)
+
+
+class TileListAPI(View):
+    def get(self, request):
+        tilelist = TileStore.objects.all()
+        data = json.loads(serializers.serialize(
+            'json', tilelist, fields=('layername', 'link')))
+        return JsonResponse(data, safe=False)
