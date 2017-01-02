@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View
+from django.http import HttpResponse
 from django.conf import settings
 from django.http import JsonResponse
 from django.core import serializers
+from django.views.generic import View
+from django.utils.encoding import smart_str
+from wsgiref.util import FileWrapper
 from .proc import ProcessAPI
 from .uploader import UploaderAPI
 from .models import RasterStore, TileStore
 import json
+import uuid
+import shutil
 
 
 class TileWeb(View):
@@ -47,6 +52,21 @@ class TileListAPI(View):
         data = json.loads(serializers.serialize(
             'json', tilelist, fields=('layername', 'link')))
         return JsonResponse(data, safe=False)
+
+
+class DownloadTiles(View):
+    def get(self, request, rastname):
+        tile = TileStore.objects.get(layername=rastname)
+        fileloc = tile.raw_location
+        tmp_zipped = '/tmp/%s-%s' % (uuid.uuid1(), rastname)
+        shutil.make_archive(tmp_zipped, 'zip', fileloc)
+        wrapper = FileWrapper(file(tmp_zipped + '.zip'))
+        response = HttpResponse(wrapper, content_type='application/zip')
+        response[
+            'Content-Disposition'] = 'attachment; filename=%s' % smart_str(tmp_zipped + '.zip')
+        # response['X-Accel-Redirect'] = "/protected/{0}".format(document.file.name)
+        return response
+        # return HttpResponse('boom')
 
 
 def generate_tiles(rastname):

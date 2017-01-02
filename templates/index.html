@@ -32,10 +32,21 @@
         <a class="item" onClick="showUploadForm();">
         UPLOAD
       </a>
+        <a class="item" onClick="showDownloadModal();">
+        DOWNLOAD
+      </a>
         <div class="right menu">
         </div>
     </div>
     <div id="mapid" class="fill"></div>
+    <div class="ui modal" id="about_modal">
+        <div class="header">Raster Tiling Service</div>
+        <div class="content">
+            <p>The Raster Tiling Service is Django Web Application which generates tiles from uploaded rasters. It generates a tile map service which can be used to host your raster data online. The code can be found <a href="https://github.com/noypimaps/tilerservice">here</a></p>
+            <br />
+            <p>This is developed by <i>noypimaps.</i></p>
+        </div>
+    </div>
     <div class="ui modal" id="upload_modal">
         <div class="header">Raster Upload Form</div>
         <div class="content">
@@ -57,21 +68,33 @@
             </form>
         </div>
     </div>
-    <div class="ui modal" id="about_modal">
-        <div class="header">Raster Tiling Service</div>
+    <div class="ui modal" id="download_modal">
+        <div class="header">Tiles List</div>
         <div class="content">
-            <p>The Raster Tiling Service is Django Web Application which generates tiles from uploaded rasters. It generates a tile map service which can be used to host your raster data online. The code can be found <a href="https://github.com/noypimaps/tilerservice">here</a></p>
-            <br />
-            <p>This is developed by <i>noypimaps.</i></p>
+            <table style="width:100%" class="ui celled padded table" id="tilelist">
+              <thead>
+                <tr>
+                    <th>Rastername</th>
+                    <th>Download</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
         </div>
     </div>
 </body>
 <script>
+function showAboutModal() {
+    $('#about_modal').modal('show');
+}
+
 function showUploadForm() {
     $('#upload_modal').modal('show');
 }
-function showAboutModal() {
-    $('#about_modal').modal('show');
+
+function showDownloadModal() {
+    $('#download_modal').modal('show');
 }
 var overlayMaps = {};
 var overlayLayers = [];
@@ -90,7 +113,8 @@ $.getJSON('/tile/list/', function(data) {
             tms: true,
         });
         overlayLayers.push(overlayMaps[data[i].fields.layername]);
-
+        var newRowContent = "<tr><td>"+data[i].fields.layername+"</td><td><a href='/download/"+data[i].fields.layername+"/'>" + "Download" + "</a></td></tr>";
+        $("#tilelist tbody").append(newRowContent); 
     }
 }).done(function() {
     var mymap = L.map('mapid', {
