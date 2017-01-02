@@ -12,16 +12,13 @@ class TileView(View):
         message = {}
         raster = get_object_or_404(RasterStore, layername=rastname)
         proc = ProcessAPI()
-        # input_raster = "sample_data/bathymetry.tif"
-        # color_text = "sample_data/color-text.txt"
-        # rastname = "test"
         input_raster = raster.raw_location
         color_text = raster.color_location
         rastname = raster.layername
         color_out = proc.color_raster(rastname, input_raster, color_text)
         warp_out = proc.warp_raster(rastname, color_out[2])
-        # proc.tile_raster(rastname, warp_out[2], settings.TILE_ZOOM)
-        message['detail'] = "finished warping"
+        proc.tile_raster(rastname, warp_out[2], settings.TILE_ZOOM)
+        message['detail'] = "finished tiling"
         return JsonResponse(message)
 
 

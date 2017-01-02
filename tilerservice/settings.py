@@ -118,7 +118,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
 
 # Tiler Service Specific Configuration
@@ -126,4 +126,13 @@ TILE_OUTPUT = "sample_run/tile_output"
 WARP_OUTPUT = "sample_run/warp_output"
 COLOR_OUTPUT = "sample_run/color_output"
 TILE_UPLOAD = "sample_run/tile_upload"
-TILE_ZOOM = "6-7"
+TILE_ZOOM = "1-7"
+TILE_URL = '/tiles/'
+TILE_PATH = os.path.join(BASE_DIR, TILE_OUTPUT)
+
+STATIC_URL = '/tiles/'
+STATICFILES_DIRS = [
+    TILE_PATH
+    # os.path.join(BASE_DIR, "static"),
+    # '/var/www/static/',
+]

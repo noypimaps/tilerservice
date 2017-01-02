@@ -34,7 +34,7 @@ class ProcessAPI():
             os.makedirs("%s/" % warp_output)
 
         try:
-            cmd = 'gdalwarp -co TILED=YES -co COMPRESS=DEFLATE -t_srs EPSG:3857 %s %s/%s.tif' % (
+            cmd = 'gdalwarp -co TILED=YES -co COMPRESS=DEFLATE -s_srs EPSG:4326 -t_srs EPSG:3857 %s %s/%s.tif' % (
                 input_raster, warp_output, rastname)
             os.system(cmd)
             warp_loc = '%s/%s.tif' % (warp_output, rastname)
@@ -44,7 +44,7 @@ class ProcessAPI():
 
     def tile_raster(self, rastname, input_raster, zoom_levels="6-7"):
         try:
-            cmd = 'gdal2tiles.py -p raster -z %s %s %s/%s' % (
+            cmd = 'gdal2tiles.py -z %s %s %s/%s' % (
                 zoom_levels, input_raster, tile_output, rastname)
             os.system(cmd)
             return ("Finished tiling %s" % rastname, "sucess")

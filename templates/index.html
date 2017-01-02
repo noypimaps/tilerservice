@@ -2,6 +2,7 @@
 <html>
 
 <head>
+{% load staticfiles %}
     <meta charset="utf-8" />
     <title>Tile Web Interface</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
@@ -66,6 +67,11 @@ var OpenStreetMap_HOT = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
 }).addTo(mymap);
+L.tileLayer('/tiles/bathymetry/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    tms: true,
+}).addTo(mymap);
+console.log('/tiles/bathymetry/{z}/{x}/{y}.png');
 </script>
 
 </html>
