@@ -38,7 +38,8 @@
     <div class="ui modal">
         <div class="header">Raster Upload Form</div>
         <div class="content">
-					<div class="ui form">
+					<form class="ui form" method="post" action="/upload/" enctype="multipart/form-data">
+					  {% csrf_token %}
 					  <div class="field">
 					    <label>Raster Name</label>
 					    <input type="text" name="rastername">
@@ -48,8 +49,7 @@
 					    <input type="file" name="file">
 					  </div>
 					  <button class="ui button teal" type="submit">Upload</button>
-					</div>
-
+					</form>
         </div>
     </div>
 </body>

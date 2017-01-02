@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.http import JsonResponse
 from .proc import ProcessAPI
+from .uploader import UploaderAPI
 
 
 class TileView(View):
@@ -28,3 +29,11 @@ class FileUploader(View):
         message = {}
         message['detail'] = "File Uploader"
         return JsonResponse(message)
+
+    def post(self, request):
+        message = {}
+        message['detail'] = "File Uploader Post"
+        upload = UploaderAPI()
+        upload.upload_file(
+            request.FILES['file'], request.POST.get('rastername'))
+        return redirect('/')

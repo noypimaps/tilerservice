@@ -1,6 +1,7 @@
 from django.conf import settings
 from models import RasterStore
 from osgeo import gdal
+import os
 
 rast_store = settings.TILE_UPLOAD
 
@@ -21,6 +22,10 @@ class UploaderAPI():
 
     def upload_file(self, f, rastname):
         raw_loc = rast_store + '/%s.tif' % rastname
+        if os.path.isdir(rast_store):
+            pass
+        else:
+            os.makedirs(rast_store)
         with open(raw_loc, 'wb+') as dest:
             for chunk in f.chunks():
                 dest.write(chunk)
