@@ -133,6 +133,4 @@ TILE_PATH = os.path.join(BASE_DIR, TILE_OUTPUT)
 STATIC_URL = '/tiles/'
 STATICFILES_DIRS = [
     TILE_PATH
-    # os.path.join(BASE_DIR, "static"),
-    # '/var/www/static/',
 ]
