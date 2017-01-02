@@ -5,7 +5,6 @@ A django based application which generates a map tiles using `gdal2tiles.py`. Re
 - Ubuntu 16.04
 - Django
 - GDAL
-- PyGDAL
 
 ## Setup
 1. Install system requirements:
@@ -15,7 +14,6 @@ A django based application which generates a map tiles using `gdal2tiles.py`. Re
  - Activate virtual environment: `. env/bin/activate`
 3. Install python libraries:
  - `pip install django`
- - `pip install pygdal==your_gdal_version`
 4. Run the development server:
  - `sh run_dev.sh`
 
