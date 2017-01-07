@@ -18,8 +18,7 @@ A django based application which generates a map tiles using `gdal2tiles.py`. Re
  - `sh run_dev.sh`
 
 ## Future Tasks
-1. Create an interface for exporing the generated tiles.
-2. Create a task queue for handling long running tasks (i.e tile generation)
-3. Improve user interface of the layer viewer.
-4. Add support to other raster formats.
-5. Improve docs of the application.
+1. Create a task queue for handling long running tasks (i.e tile generation)
+2. Improve user interface of the layer viewer.
+3. Add support to other raster formats.
+4. Improve docs of the application.
